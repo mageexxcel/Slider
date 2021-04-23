@@ -1,0 +1,369 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * @var \Adtones\Stock\Block\Adminhtml\Stock\Edition\StockOrder $block
+ */
+?>
+
+<?php
+$helper       = $this->helper('Adtones\Stock\Helper\Data'); 
+$storeBaseUrl = $helper->getStoreBaseUrl();
+$orderId      = $this->getRequest()->getParam("order_id");
+$invoiceIdWithPrefix = $helper->getInvoiceDetails($orderId);
+$invoiceId = '';
+
+// Removing prefix number from invoice id. i.e 2000000001 will be 000000001.
+for ($index=1; $index < strlen($invoiceIdWithPrefix); $index++) { 
+    $invoiceId = $invoiceId.''.$invoiceIdWithPrefix[$index];
+}
+
+$currentProductId = "";
+if($this->getRequest()->getParam('id')){
+    $currentProductId = $this->getRequest()->getParam('id');
+}
+
+// Rendering current product collection to get information.
+$productCollection = $helper->getProductAttribute($currentProductId);
+$categoryName = '';
+?>
+
+<section class="edition_admin__page-section order-view-account-information">
+    <div class="edition_admin__page-section-title">
+        <span class="title"><?= $block->escapeHtml(__('Edition Stock Information')) ?></span>
+    </div>
+    <div class="edition_admin__page-section-content">
+        <div class="edition_admin__page-section-item order-information">
+            <?php /* Order Information */ ?>
+            <div class="edition_admin__page-section-item-content">
+                <table class="edition_admin__table-secondary order-information-table">
+                <tr>
+                    <th><?= $block->escapeHtml(__('Invoice')) ?></th>
+                    <?php
+                        $orderData = $helper->getOrderIncrementId($this->getRequest()->getParam('order_id'));
+                        $invoiceUrl = $this->getUrl('sales/order_invoice/new/order_id/'.$orderId.'/');
+                    ?>
+                    <td>
+                        <a title="View invoice" href="<?php if(!empty($invoiceId)){ echo __($this->getUrl('sales/order_invoice/view/invoice_id/'.$helper->getInvoiceId($invoiceIdWithPrefix).'/')); }else{ echo '#'; } ?>" title="View Invoice" class="invoice-view" ><?= $block->escapeHtml("View") ?></a>
+                        <a title="Download invoice" href="<?php if(!empty($invoiceId)){ echo __($this->getUrl('sales/order_invoice/print/invoice_id/'.$helper->getInvoiceId($invoiceIdWithPrefix).'/')); }else{ echo '#'; } ?>" class="invoice-download" ><?= $block->escapeHtml("Download") ?></a>
+                        <a title="Send invoice in email" href="<?php if(!empty($invoiceId)){ echo __($this->getUrl('sales/order/email/order_id/'.$orderId.'/invoice_id/'.$invoiceId.'/')); }else{ echo '#'; } ?>" class="invoice-email" ><?= $block->escapeHtml("Email") ?></a>
+                        <?php if(!$orderData->hasInvoices()){ ?>
+                            <a title="Generate invoice" href="<?= __($invoiceUrl) ?>" onclick="<?= __($invoiceUrl) ?>" class="invoice-generate" ><?= $block->escapeHtml("Generate") ?></a>
+                        <?php } else { ?>
+                            <a title="Generate invoice" onclick="return alert('Invoice is already been Generated.')" class="invoice-generate" ><?= $block->escapeHtml("Generate") ?></a>
+                        <?php } ?>
+                    </td>
+                </tr>
+                
+                <?php $order_id = $this->getRequest()->getParam('order_id'); ?>
+                <?php $orderItemList = $helper->getProductDetail($order_id); ?>
+                <?php foreach ($orderItemList as $item) { ?>
+                    <?php $isProductExists = $block->isProductExists($item->getProductId()); ?>
+                    <?php
+                        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                        $product = $objectManager->get('Magento\Catalog\Model\Product')->load($item->getProductId());
+                           
+                        // Rendering category name for Artist column.
+                        $categories = $product->getCategoryIds();
+                        foreach($categories as $category){
+                            $catName = $helper->getCategoriesCollection($category);
+                            $categoryName = $catName->getName();
+                        }
+                    ?>
+                    <?php if($isProductExists){ ?>
+                        <?php for($i = (int)$item->getQtyOrdered(); $i > 0; $i--) { ?>
+                            <?php 
+                                $productEdition = $block->getAllocationDetails($order_id, $item->getProductId(), $i); 
+                                if($productEdition){
+                                    $collectionSize = $block->getCollectionSize($item->getProductId());
+                                    if($collectionSize == 1){
+                                        $productEdition = 'Unique';
+                                    }
+                                }
+                            ?>
+                            
+                            <?php $controllerUrl = $this->getUrl('adtones_stock/allocate/registrysetupforgrid/current_product_id/'.$item->getProductId().'/order_number/'.$order_id.'/stock_item_id/'.$i.'/'); ?>
+                            <tr>
+                                <th><?= $block->escapeHtml(__($item->getName())) ?>
+                                    <span class="edition-info"><?= ($productEdition)?$block->escapeHtml(' ( Edition: '.$productEdition.')'):''; ?></span>
+                                </th>
+                                <td class="edition-allocation"> 
+                                    <a title="Allocate product edition." href="<?= __($controllerUrl) ?>">
+                                        <?= (!$productEdition)?$block->escapeHtml("Allocate"):$block->escapeHtml("Reallocate"); ?>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    <?php }else{ ?>
+                        <?php for($i = (int)$item->getQtyOrdered(); $i > 0; $i--) { ?>
+                            <?php $productEdition = "This product has no associated stock items, please create a stock item"; ?>
+                            <tr>
+                                <th><?= $block->escapeHtml(__($item->getName())) ?>
+                                    <span class="edition-info"><?= $block->escapeHtml(' ('.$productEdition.')'); ?></span>
+                                </th>
+                                <td class="edition-allocation"> 
+                                    <a class="Create_Reallocate" href="#" data-id="<?php echo $item->getProductId() ?>" data-sku="<?php echo $item->getSKu() ?>" data-index="<?php echo $i; ?>" data-name="<?php echo $item->getName() ?>">
+                                        <?= $block->escapeHtml("Create & Allocate") ?>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    <?php } ?>
+                <?php } ?>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- popup section -->
+<div class="popup-section">
+    <div id="popup-modal" style="display:none;">
+        <div class="product-edition-section">
+            <div class="container">
+                <div class="product-edition-form">
+                    <!-- form to save product new edition -->
+                    <form class="product-new-edition-from" id="product-new-edition-from" method="post" enctype="multipart/form-data">
+                        <!-- Hidden item index field  -->
+                        <input type="hidden" class="form-control" id="edition_id" value="<?php /* @escapeNotVerified */  ?>">
+                        
+                        <div class="form-group mb-2">
+                            <label for="availability" class="sr-only"><?= __("Availability") ?></label>
+                            <select class="custom-select my-1 mr-sm-2 form-control" id="availability">
+                                <option value="Allocated"><?= __("Allocated") ?></option>
+                                <option value="Available"><?= __("Available") ?></option>
+                                <option value="Awaiting stock"><?= __("Awaiting stock") ?></option>
+                                <option value="Consigned out"><?= __("Consigned out") ?></option>
+                                <option value="Held"><?= __("Held") ?></option>
+                                <option value="Not for sale"><?= __("Not for sale") ?></option>
+                                <option value="Return to consigner"><?= __("Return to consigner") ?></option>
+                                <option value="Sold"><?= __("Sold") ?></option>
+                                <option value="Unknown"><?= __("Unknown") ?></option>
+                                <option value="Damaged"><?= __("Damaged") ?></option>
+                            </select>
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="index_id" class="sr-only"></label>
+                            <span class="sr-only form-control notification-msg"><?= __("*Please select ALLOCATE while creating new stock.") ?></spna>
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="condition" class="sr-only"><?= __("Condition") ?></label>
+                            <select class="custom-select my-1 mr-sm-2 form-control" id="condition">
+                                <option value="New"><?= __("New") ?></option>
+                                <option value="Damaged"><?= __("Damaged") ?></option>
+                                <option value="Destroyed"><?= __("Destroyed") ?></option>
+                                <option value="Unknown"><?= __("Unknown") ?></option>
+                            </select>
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="product_id" class="sr-only"><?= __("Product ID") ?></label>
+                            <input type="text" class="form-control" id="product_id" value="<?php /* @escapeNotVerified */  ?>">
+                        </div>
+
+                        <!-- Product Name field in CREATE & ALLOCATE popup -->
+                        <input type="hidden" class="form-control" id="product_name" value="<?php /* @escapeNotVerified */  ?>" placeholder="Product Name">
+                        
+                        <div class="form-group mx-sm-3 mb-2">
+                        <label for="sku" class="sr-only">Sku</label>
+                            <input type="text" class="form-control" id="sku" value="<?php /* @escapeNotVerified */  ?>">
+                        </div>
+
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="artist" class="sr-only"><?= __("Artist") ?></label>
+                            <input type="text" class="form-control" id="artist" value="<?php /* @escapeNotVerified */ echo $categoryName;  ?>" placeholder="Artist">
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="ownership" class="sr-only"><?= __("Ownership") ?></label>
+                            <select class="custom-select my-1 mr-sm-2 form-control" id="ownership">
+                                <option value="Consigned from artist"><?= __("Consigned from artist") ?></option>
+                                <option value="Consigned from other"><?= __("Consigned from other") ?></option>
+                                <option value="Exclusive to TAG"><?= __("Exclusive to TAG") ?></option>
+                                <option value="Published by TAG"><?= __("Published by TAG") ?></option>
+                                <option value="Unknown"><?= __("Unknown") ?></option>
+                                <option value="Not for sale"><?= __("Not for sale") ?></option>
+                                <option value="Wholly Owned"><?= __("Wholly Owned") ?></option>
+                            </select>
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="work" class="sr-only"><?= __("Work") ?></label>
+                            <input type="text" class="form-control" id="work" value="<?php /* @escapeNotVerified */  ?>" placeholder="Work">
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="location" class="sr-only"><?= __("Location") ?></label>
+                            <input type="text" class="form-control" id="location" placeholder="Location">
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="edition_number" class="sr-only"><?= __("Edition Number") ?></label>
+                            <input type="text" class="form-control" id="edition_number" placeholder="Edition Number">
+                        </div>
+                        
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="packing_requirements" class="sr-only"><?= __("Packing Requirement") ?></label>
+                            <input type="text" class="form-control" id="packing_requirements" placeholder="Packing Requirement">
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="stock_type" class="sr-only"><?= __("Stock Type") ?></label>
+                            <select class="custom-select my-1 mr-sm-2 form-control" id="stock_type">
+                                <option value="Primary"><?= __("Primary") ?></option>
+                                <option value="Drawing"><?= __("Drawing") ?></option>
+                                <option value="Merchandise"><?= __("Merchandise") ?></option>
+                                <option value="Original"><?= __("Original") ?></option>
+                                <option value="Painting"><?= __("Painting") ?></option>
+                                <option value="Photography"><?= __("Photography") ?></option>
+                                <option value="Print"><?= __("Print") ?></option>
+                                <option value="Sculpture"><?= __("Sculpture") ?></option>
+                                <option value="Other"><?= __("Other") ?></option>
+                            </select>
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="framed" class="sr-only"><?= __("Framed") ?></label>
+                            <select class="custom-select my-1 mr-sm-2 form-control" id="framed">
+                                <option value="yes"><?= __("Yes") ?></option>
+                                <option value="no"><?= __("No") ?></option>
+                            </select>
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="comment" class="sr-only"><?= __("Comment") ?></label>
+                            <input type="textarea" class="form-control" row='4' id="comment" placeholder="Comment">
+                        </div> 
+                        <button type="submit" class="btn btn-primary product-edition-submit" id="product-edition-submit" ><?= __("Save Edition") ?></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+​</div>
+
+<script>
+require(
+    [
+        'jquery',
+        'Magento_Ui/js/modal/modal'
+    ],
+    function(
+        $,
+        modal
+    ) {
+        var options = {
+            type: 'popup',
+            responsive: true,
+            innerScroll: true,
+            title: 'Create stock item and allocate',
+        };
+        var popup = modal(options, $('#popup-modal'));
+        $("a.Create_Reallocate").on('click',function(){ 
+
+            $("div#popup-modal input#edition_id").val($(this).attr("data-index"));
+            $("div#popup-modal input#product_name").val($(this).attr("data-name"));
+            $("div#popup-modal input#work").val($(this).attr("data-name"));
+            $("div#popup-modal input#product_id").val($(this).attr("data-id"));
+            $("div#popup-modal input#sku").val($(this).attr("data-sku"));
+
+            $("#popup-modal").modal("openModal");
+        });
+            
+        $('button#product-edition-submit').on("click", function(event) {
+            var controllerUrl = "<?php echo $this->getUrl('adtones_stock/newedition/save'); ?>";
+            event.preventDefault();
+
+            var storeBaseUrl = '<?php echo $storeBaseUrl; ?>';
+            var orderId = "<?php echo $this->getRequest()->getParam('order_id'); ?>";
+
+            // Creating array to send in controller using ajax.
+            var productEditionArray = {};
+            productEditionArray['availability']         = $("select#availability").val();
+            productEditionArray['condition']            = $("select#condition").val();
+            productEditionArray['product_id']           = $("#product_id").val();
+            productEditionArray['product_name']         = $("#product_name").val();
+            productEditionArray['sku']                  = $("#sku").val();
+            productEditionArray['artist']               = $("#artist").val();
+            productEditionArray['ownership']            = $("#ownership").val();
+            productEditionArray['work']                 = $("#work").val();
+            productEditionArray['location']             = $("#location").val();
+            productEditionArray['edition_number']       = $("#edition_number").val();
+            productEditionArray['packing_requirements'] = $("#packing_requirements").val();
+            productEditionArray['stock_type']           = $("select#stock_type").val();
+            productEditionArray['framed']               = $("#framed").val();
+            productEditionArray['allocated']            = '1';
+            productEditionArray['allocated_order_id']   = orderId;
+            productEditionArray['edition_id']           = JSON.stringify($("#edition_id").val());
+
+            productEditionJsonArray = JSON.stringify(productEditionArray);
+
+            $.ajax({
+                type: "POST",
+                url: controllerUrl,
+                data: {'formData': productEditionJsonArray},
+                showLoader: true,
+                success: function(responseData) {
+                    // Closing Popup model.
+                    $("button.action-close").trigger("click");
+                    location.reload();
+
+                    // Changing link and text in stock lines.
+                    // var currentAllocateLink = $('[data-id="'+$("#product_id").val()+'"]');
+                    // currentAllocateLink.closest("tr").find("span.edition-info").text("(Edition: 1.0)");
+
+                    // currentAllocateLink.attr('href', storeBaseUrl+"adtones_stock/allocate/registrysetupforgrid/current_product_id/"+$("#product_id").val()+"/order_number/"+orderId+"/stock_item_id/"+currentAllocateLink.attr('data-index')+"/");
+                    // currentAllocateLink.text("Reallocate");
+                    // currentAllocateLink.removeClass("Create_Reallocate");
+                },
+                error: function(responseData) {
+                    // $("#popup-modal").modal("hide");
+                }
+            });
+            return false;
+        });
+    }
+);
+</script>
+
+	
+
+<style>
+.modal-popup._inner-scroll .modal-inner-wrap {
+    top: -20px;
+}
+section.edition_admin__page-section.order-view-account-information .edition_admin__page-section-title {
+    border-bottom: 1px solid #cccccc;
+    margin-bottom: 1.7rem;
+    padding: 1.4rem 0 .5rem;
+    font-size: 22px;
+    padding-top: 5rem;
+}
+section.edition_admin__page-section.order-view-account-information .edition_admin__page-section-content .edition_admin__page-section-item.order-information {
+    width: 100%;
+}
+section.edition_admin__page-section.order-view-account-information table.edition_admin__table-secondary.order-information-table tbody td a.invoice-view ,
+section.edition_admin__page-section.order-view-account-information table.edition_admin__table-secondary.order-information-table tbody td a.invoice-download ,
+section.edition_admin__page-section.order-view-account-information table.edition_admin__table-secondary.order-information-table tbody td a.invoice-email ,
+section.edition_admin__page-section.order-view-account-information table.edition_admin__table-secondary.order-information-table tbody td a.invoice-generate {
+    display: block;
+}
+section.edition_admin__page-section.order-view-account-information table.edition_admin__table-secondary.order-information-table {
+    margin: unset;
+    width: 100%;
+}
+section.edition_admin__page-section.order-view-account-information table.edition_admin__table-secondary.order-information-table th {
+    padding-top: 10px;
+    vertical-align: middle;
+}
+section.edition_admin__page-section.order-view-account-information table.edition_admin__table-secondary.order-information-table tr td.edition-allocation {
+    padding-top: 10px;
+}
+section.edition_admin__page-section.order-view-account-information table.edition_admin__table-secondary.order-information-table th span.edition-info {
+    font-weight: 600;
+}
+section.edition_admin__page-section.order-view-account-information table.edition_admin__table-secondary.order-information-table a.Create_Reallocate {
+    cursor: pointer;
+}
+div#popup-modal .product-edition-section .product-edition-form form.product-new-edition-from span.sr-only.form-control.notification-msg {
+    color: red;
+    font-size: 10px;
+    text-align: left;
+    padding-left: unset !important;
+    padding-bottom: 5px;
+}
+</style>

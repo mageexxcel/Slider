@@ -1,0 +1,211 @@
+<?php
+  $sliderId = 0;
+  
+  $slider_id_from_cms_block = $this->getData('sliderId');
+  $slider_id_from_phtml = $this->getData('slider_id');
+  
+  if(isset($slider_id_from_cms_block))
+  {
+    $sliderId = $slider_id_from_cms_block;
+  }
+  if(isset($slider_id_from_phtml))
+  {
+    $sliderId = $slider_id_from_phtml;
+  }
+  if($sliderId != 0)
+  {
+    $rowCollection = $block->setSliderForCustomLocation($sliderId);
+    $sliderInfo = $block->getSliderDetails();
+
+    $sliderType = $sliderInfo['sliderType'];
+    $sliderSpeedVal = $sliderInfo['sliderSpeed'];
+    $sliderFadeVals = $sliderInfo['fade'];
+    $sliderPauseHover = $sliderInfo['pauseonhover'];
+    $sliderLoopThrough = $sliderInfo['loop'];
+    $sliderNavDots = $sliderInfo['dots'];
+    $countImages = $sliderInfo['imagecounts'];
+    $caption = $sliderInfo['caption'];
+    $infiniteLoop = $sliderInfo['infiniteLoop'];
+    $adaptiveHeight = $sliderInfo['adaptiveHeight'];
+    $controlNavDots = $sliderInfo['controlNavDots'];
+
+    /* 
+    checking if the number of slide not specified then set to '1' as default
+    or else grab the inserted one
+    */
+    if (empty($countImages)) {
+        $countImages = 1;
+    }
+    
+    $autoPlay = $sliderInfo['autoplay'];
+    $sliderFadeControl = $block->getFadeval($sliderFadeVals);
+    $sliderpauseOnHover = $block->getPauseOnHover($sliderPauseHover);
+    $sliderLoopVal = $block->getLoopInfo($sliderLoopThrough);
+    $sliderNavDotVal = $block->getNavDot($sliderNavDots);
+    $sliderautoplay = $block->getAutoPlayVal($autoPlay);
+    $sliderCaption = $block->getCaption($caption);
+    $sliderInfiniteLoop = $block->getInfiniteLoop($infiniteLoop);
+    $sliderAdaptiveHeight = $block->getAdaptiveHeight($adaptiveHeight);
+    $sliderNavDots = $block->getControlNavDots($controlNavDots);
+   
+    if(!empty($rowCollection))
+        {   
+            ?>
+            <style type="text/css">.authentication-wrapper{ margin-top: 0px; }</style>
+            <?php
+            ?>
+            <div class="excellence-slider">
+            <?php
+            switch ($sliderType) {
+                case 'bxslider':
+                    ?>
+                        <script type="text/javascript">
+                            requirejs(['jquery','bxslider'],function($,bx){
+                                $('.bxslider.custom-slider').bxSlider({
+                                    captions:<?php echo $sliderCaption; ?>,
+                                    speed:<?php echo $sliderSpeedVal; ?>,
+                                    mode: '<?php echo $sliderFadeControl; ?>',
+                                    adaptiveHeight: <?php echo $sliderAdaptiveHeight; ?>,
+                                    pagerCustom: '#bx-pager',
+                                    auto: <?php echo $sliderautoplay; ?>,
+                                    infiniteLoop:<?php echo $sliderInfiniteLoop; ?>
+                                });
+                            });
+                        </script>
+                        <div>
+                            <ul class="bxslider custom-slider">
+                                <?php foreach ($rowCollection as $item) : ?>
+                                    <?php $sliderId = $item['slider_name'];?>
+                                    <?php $stretchImageValue = $block->getStretchImageInfo($sliderId);?>
+                                    <li class="bxslider_container"><a target="blank" href="<?php if(empty($item['content'])){ echo "javascript:void(0)"; } 
+                                    else{ echo $item['content']; } ?>"><?php if($stretchImageValue == 1): ?>
+                                    <img style="width: 100%" src="<?php echo $item['filename']; ?>" 
+                                    alt="<?php echo $item['title']; ?>" title="<?php echo $item['title']; ?>" />
+                                    <?php else:?><img src="<?php echo $item['filename']; ?>" alt="<?php echo $item['title']; ?>"
+                                    title="<?php echo $item['title']; ?>" class= "slider-image" /><?php endif;?> </a></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    <?php
+                    break;
+                case 'flexslider':
+                    ?>
+                        <script type="text/javascript">
+                            requirejs(['jquery','flexslider'],function($,flex){
+                                $('.flexslider.custom-slider').flexslider({
+                                    pauseOnHover: '<?php echo $sliderpauseOnHover; ?>',
+                                    slideshowSpeed: '<?php echo $sliderSpeedVal; ?>',
+                                    controlNav: '<?php echo $sliderNavDots; ?>'
+                                });;
+                            });
+                        </script>
+                        <div class="flexslider custom-slider">
+                            <ul class="slides">
+                                <?php foreach ($rowCollection as $item) : ?>
+                                    <?php $sliderId = $item['slider_name'];?>
+                                    <?php $stretchImageValue = $block->getStretchImageInfo($sliderId);?>
+                                    <li>
+                                        <a target="blank" href="<?php if(empty($item['content'])){ echo "javascript:void(0)"; } 
+                                        else{ echo $item['content']; } ?>"><?php if($stretchImageValue == 1): ?>
+                                        <img style="width: 100%" src="<?php echo $item['filename']; ?>" 
+                                        alt="<?php echo $item['title']; ?>" title="<?php echo $item['title']; ?>" />
+                                        <?php else:?><img src="<?php echo $item['filename']; ?>" 
+                                        alt="<?php echo $item['title']; ?>" title="<?php echo $item['title']; ?>"
+                                        class= "slider-image" /><?php endif;?></a>
+                                        <?php
+                                        if(!empty($item['title'])){
+                                            ?>
+                                            <p class="image-caption"><?= __($item['title']); ?></p>
+                                            <?php
+                                        }
+                                        ?>
+                                        
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    <?php
+                    break;
+                case 'owlcarousel':
+                        $slideCount = count ($rowCollection);
+                    ?>
+                        <script type="text/javascript">
+                            requirejs(['jquery','owlcarousel'],function($,owl){
+                                $('.owl-carousel.custom-slider').owlCarousel({
+                                    items: '<?php echo $countImages; ?>',
+                                    autoplay: <?php echo $sliderautoplay; ?>,
+                                    dots: <?php echo $sliderNavDotVal; ?> ,
+                                    <?php
+                                        if($slideCount > 1){
+                                            ?>
+                                            loop : <?php echo $sliderLoopVal; ?>
+                                            <?php
+                                        }
+                                    ?>
+                                });
+                            });
+                        </script>
+                        <div class="owl-carousel custom-slider">
+                                <?php foreach ($rowCollection as $item) : ?>
+                                    <?php $sliderId = $item['slider_name'];?>
+                                    <?php $stretchImageValue = $block->getStretchImageInfo($sliderId);?>
+                                    <div><a target="blank" href="<?php if(empty($item['content'])){ echo "javascript:void(0)"; } 
+                                    else{ echo $item['content']; } ?>"><?php if($stretchImageValue == 1): ?>
+                                    <img style="width: 100%" src="<?php echo $item['filename']; ?>" 
+                                    alt="<?php echo $item['title']; ?>" title="<?php echo $item['title']; ?>" />
+                                    <?php else:?><img src="<?php echo $item['filename']; ?>" alt="<?php echo $item['title']; ?>"
+                                    title="<?php echo $item['title']; ?>" class= "slider-image" /><?php endif;?></a>
+                                    <?php
+                                    if(!empty($item['title'])){
+                                        ?>
+                                        <p class="image-caption"><?= __($item['title']) ; ?></p>
+                                        <?php
+                                    }
+                                    ?>
+                                    </div>
+                                <?php endforeach; ?>
+                        </div>
+                    <?php
+                    break;
+                case 'unslider':
+                    ?>
+                        <script type="text/javascript">
+                            requirejs(['jquery','unslider'],function($,unslider){
+                                $('.automatic-slider.custom-slider').unslider({
+                                    autoplay: <?php echo $sliderautoplay; ?>,
+                                    dots: <?php echo $sliderNavDots; ?>,
+                                    delay:<?php echo $sliderSpeedVal; ?> 
+                                });
+                            });
+                        </script>
+                        <div class="automatic-slider custom-slider">
+                            <ul>
+                                <?php foreach ($rowCollection as $item) : ?>
+                                    <?php $sliderId = $item['slider_name'];?>
+                                    <?php $stretchImageValue = $block->getStretchImageInfo($sliderId);?>
+                                    <li><a target="blank" href="<?php if(empty($item['content'])){ echo "javascript:void(0)"; } 
+                                    else{ echo $item['content']; } ?>"><?php if($stretchImageValue == 1): ?>
+                                    <img style="width: 100%" src="<?php echo $item['filename']; ?>" 
+                                    alt="<?php echo $item['title']; ?>" title="<?php echo $item['title']; ?>" />
+                                    <?php else:?><img  src="<?php echo $item['filename']; ?>"
+                                    alt="<?php echo $item['title']; ?>" title="<?php echo $item['title']; ?>" />
+                                    <?php endif;?></a></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    <?php
+                    break;
+                default:
+            }
+            ?>
+            </div>
+            <?php
+        }
+        else{
+            $block->setErrorMessage(500);
+        }
+  }
+  else{
+    $block->setErrorMessage(400);
+  }
+?>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <!-- Order invoice information after saving it -->
+    <event name="sales_order_invoice_save_after">
+        <observer name="adtones_stock_observer_sales_order_invoice" instance="Adtones\Stock\Observer\adminhtml\SalesOrderInvoice" />
+    </event>
+
+    <!-- getting order status after saving order -->
+    <event name="sales_order_save_after">
+        <observer name="adtones_stock_order_Save" instance="Adtones\Stock\Observer\adminhtml\SalesOrderStateChange" />
+    </event>
+
+    <!-- getting information when admin  placing order -->
+    <!-- <event name="sales_order_place_after">
+        <observer name="adtones_stock_order_place_after" instance="Adtones\Stock\Observer\adminhtml\SalesOrderPlaceAfter" />
+    </event> -->
+</config>

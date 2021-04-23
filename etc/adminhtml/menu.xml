@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+
+        <add id="Excellence_Slider::excellence_slider" title="Slider" module="Excellence_Slider" sortOrder="10" parent="Excellence_Base::base" resource="Excellence_Base::base" />
+
+        <add id="Excellence_Slider::excellence_slider_manage_slider_pages" title="Manage Slider Pages" module="Excellence_Slider" sortOrder="10" parent="Excellence_Slider::excellence_slider" action="slider/sliderpages" resource="Excellence_Slider::excellence_slider_manage_slider_pages"/>
+
+        <add id="Excellence_Slider::excellence_slider_manage_slides" title="Manage Slides" module="Excellence_Slider" sortOrder="10" parent="Excellence_Slider::excellence_slider" action="slider/slides" resource="Excellence_Slider::excellence_grid"/>
+    </menu>
+</config>

@@ -1,0 +1,40 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Adtones\Stock\Block\Adminhtml\Stock\Edition\StockOrder $block */
+?>
+
+<?php
+$currentProductId = "";
+if($this->getRequest()->getParam('id')){
+    $currentProductId = $this->getRequest()->getParam('id');
+}
+?>
+
+<script type="text/javascript">
+require(
+    [
+        'jquery',
+        'Magento_Ui/js/modal/modal',
+        'uiRegistry'
+    ],
+    function(
+        $,
+        modal,
+        registry
+    ) {
+        var options = {
+            type: 'popup',
+            responsive: true,
+            innerScroll: true,
+            title: 'Product Edition Information',
+        };
+        $(document).ready(function(){
+           console.log("Working Fine...."); 
+        });
+    }
+);
+</script>

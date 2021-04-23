@@ -1,0 +1,30 @@
+{
+    "name": "excellence/slider",
+    "description": "Awesome Slider",
+    "require": {
+        "php": "~5.5.0|~5.6.0|~7.0.0",
+        "excellence/base": "0.0.*"
+    },
+    "type": "magento2-module",
+    "version": "1.1.0",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "authors": [
+        {
+          "name": "Manish Prakash",
+          "email": "excellencetechnologies08@gmail.com",
+          "homepage": "https://excellencetechnologies.co.in/",
+          "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Excllence\\Slider\\": ""
+        }
+    }
+}

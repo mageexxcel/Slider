@@ -1,0 +1,11 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="sidebar.main">
+            <block template="slider.phtml" class="Excellence\Slider\Block\Slider" name="excellence_slider.category.left.top"  before="-">
+	            <action method="setSlider">
+	                <argument name="position" xsi:type="string">1</argument>
+	            </action>
+	        </block>
+        </referenceContainer>
+    </body>
+</page>

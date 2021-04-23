@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+   <virtualType name="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="custom-tab-grid-with-content" xsi:type="array">
+                    <item name="class" xsi:type="string">Adtones\Stock\Ui\DataProvider\Product\Form\Modifier\EditionTab</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    
+    <!-- Creating Plugin to execute after catalog product edit controller -->
+    <type name="\Magento\Catalog\Controller\Adminhtml\Product\Edit">
+        <plugin name="after_catalog_product_edit_controller_plugin" type="Adtones\Stock\Plugin\AfterCatalogEditController" />
+    </type>
+    <preference for="Magento\Catalog\Controller\Adminhtml\Product\NewAction" type="Adtones\Stock\Controller\Adminhtml\Product\NewAction" />
+
+    <preference for="Magento\Sales\Model\Order\Pdf\Items\Invoice\DefaultInvoice"
+                type="Adtones\Stock\Model\Order\Pdf\Items\DefaultInvoice"/>
+
+</config>

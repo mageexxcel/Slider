@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Adtones_Stock::css/styles.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Adtones\Stock\Block\Adminhtml\Stock\Edition\StockOrder" name="Adtones_Stock_edition_grid_" template="Adtones_Stock::stock/newproduct.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

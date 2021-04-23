@@ -1,0 +1,25 @@
+<?php 
+$productDetails = $block->getSelectedProducts();
+?>
+<div class="container slider-container">
+    <div class="row">
+        <div class="col-md-3 slider-heading">
+            <label for="selected products">Selected Products</label>
+        </div>
+        <div class="col-md-4 slider-content">
+            <div id="selected_products">
+                <div id="product_collections">
+                    <ul id="display_custom_data">
+                        <?php if($productDetails): ?>
+                            <?php foreach ($productDetails as $productInfo):?>
+                                <li class="list" value= "<?php echo $productInfo; ?>"><?php echo $block->getProductname($productInfo); ?><?php if($block->getProductname($productInfo)): ?><span class="closing-tag">&#10008;</span><?php else:?><span class="no-Product">Oops... Sorry! No Product Found.<p>Please Select Products...!</p></span><?php endif;?></li>
+                            <?php endforeach;?>
+                        <?php else:?>
+                            <span class="add-products">Please Select Products...!</span>
+                        <?php endif;?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

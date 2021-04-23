@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>Slider</title>
+        <css src="Excellence_Slider::css/bxslider/jquery.bxslider.css" />
+        <css src="Excellence_Slider::css/flexslider/flexslider.css" />
+        <css src="Excellence_Slider::css/owlcarousel/owl.carousel.min.css" />
+        <css src="Excellence_Slider::css/owlcarousel/owl.theme.default.min.css" />
+        <css src="Excellence_Slider::css/unslider/unslider.css" />
+        <css src="Excellence_Slider::css/unslider/unslider-dots.css" />
+    </head> 
+    <body>
+        <referenceContainer name="content">
+            <block template="slider.phtml" class="Excellence\Slider\Block\Slider" name="excellence_slider.checkout.top"  before="-">
+	            <action method="checkoutPageSlider">
+	                <argument name="pageTypeId" xsi:type="string">4</argument>
+	                <argument name="position" xsi:type="string">3</argument>
+	            </action>
+	        </block>
+	        <block template="slider.phtml" class="Excellence\Slider\Block\Slider" name="excellence_slider.checkout.bottom"  after="-">
+	            <action method="checkoutPageSlider">
+	                <argument name="pageTypeId" xsi:type="string">4</argument>
+	                <argument name="position" xsi:type="string">4</argument>
+	            </action>
+	        </block>
+        </referenceContainer>
+    </body>
+</page>
