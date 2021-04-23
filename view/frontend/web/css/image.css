@@ -1,0 +1,13 @@
+.slider-image{
+	max-height: 400px !important;
+}
+.bx-wrapper{
+	max-width: 97% !important;
+}
+.hidden{
+	height: 0px;
+	overflow: hidden;
+}
+.bxslider_container{
+	right: 0 !important;
+}

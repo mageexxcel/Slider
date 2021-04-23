@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Adminhtml::admin" title="admin">
+                <resource id="Excellence_Slider::excellence" title="Excellence" sortOrder="20">
+                    <resource id="Excellence_Slider::excellence_slider" title="Slider" sortOrder="10">
+                        <resource id="Excellence_Slider::excellence_slider_manage_slider_pages" title="Manage Slider Pages" sortOrder="10">
+                         
+                        </resource>
+                        <resource id="Excellence_Slider::excellence_slider_manage_slides" title="Manage Slides" sortOrder="10">
+                         
+                        </resource>
+                    </resource>
+                </resource>
+                
+                <resource id="Magento_Adminhtml::stores" title="Stores">
+                    <resource id="Magento_Adminhtml::stores_settings" title="Setting">
+                        <resource id="Magento_Adminhtml::config" title="Configuration">
+                            <resource id="Excellence_Slider::slider_config" title="Slider Setting" />
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

@@ -1,0 +1,177 @@
+// Product edition grid and popup less start from here.
+.modal-popup {
+	.modal-inner-wrap {
+		max-width: 35%;
+		height: auto;
+	}
+}
+div#popup-modal {
+	.product-edition-section {
+		.product-edition-form {
+			form.product-new-edition-from {
+				input#comment {
+					height: 60px;
+					vertical-align: text-top;
+				}
+				.form-control {
+					&::placeholder {
+						color: #8080806b;
+						font-weight: 100;
+					}
+					display: inline-table;
+					width: 60%;
+					padding-left: 5px;
+				}
+				label {
+					display: inline-table;
+					width: 30%;
+					padding: 5px 0;
+				}
+				button#product-edition-submit {
+					margin-top: 20px;
+					width: 170px;
+					margin-left: 25px;
+				}
+				.form-group {
+					label {
+						text-align: initial;
+					}
+				}
+			}
+		}
+	}
+}
+.fieldset-wrapper.admin__fieldset-section_edition {
+	display: none;
+	line-height: 0;
+	margin-top: -6rem;
+	fieldset.admin__fieldset {
+		padding: unset;
+		float: left;
+		left: 0;
+		.admin__field-complex {
+			display: inline-flex;
+			padding: unset;
+			button.action-basic {
+				width: 180px;
+				font-size: 13px;
+				font-weight: bolder;
+				margin: 0 !important;
+				background: #514943;
+			}
+		}
+	}
+}
+.fieldset-wrapper.admin__fieldset-section_edition._show_edition_button {
+	display: block;
+}
+.modal-popup._inner-scroll {
+	.modal-inner-wrap {
+		text-align: center;
+	}
+}
+.modal-inner-wrap {
+	button.action-close {
+		&:before {
+			font-size: 12px !important;
+		}
+		padding: 23px !important;
+	}
+	.modal-popup._inner-scroll {
+		.modal-content {
+			text-align: center;
+		}
+	}
+	header.modal-header {
+		h1#modal-title-3 {
+			text-align: center;
+			padding: 10px 0;
+			margin-right: 30px;
+		}
+	}
+}
+aside.modal-popup.modal-slide._inner-scroll._show {
+	.modal-inner-wrap {
+		footer.modal-footer {
+			display: none;
+		}
+	}
+}
+
+// Order edit page less start from here.
+section.edition_admin__page-section.order-view-account-information {
+	.edition_admin__page-section-title {
+		border-bottom: 1px solid #cccccc;
+		margin-bottom: 1.7rem;
+		padding: 1.4rem 0 .5rem;
+		font-size: 22px;
+		padding-top: 5rem;
+	}
+	.edition_admin__page-section-content {
+		.edition_admin__page-section-item.order-information {
+			width: 100%;
+		}
+	}
+	table.edition_admin__table-secondary.order-information-table {
+		tbody {
+			td {
+				a.invoice-view {
+					display: block;
+				}
+				a.invoice-download {
+					display: block;
+				}
+				a.invoice-email {
+					display: block;
+				}
+				a.invoice-generate {
+					display: block;
+				}
+			}
+		}
+		margin: unset;
+		width: 100%;
+		th {
+			vertical-align: middle;
+			spna.edition-info {
+				font-weight: 600;
+			}
+		}
+		tr {
+			td.edition-allocation {
+				padding-top: 10px;
+			}
+		}
+	}
+}
+
+// Stock edition form less start from here:
+body.adtones_stock-stock-edit {
+	select.admin__control-select {
+		min-width: 400px;
+	}
+	.admin__field-control {
+		.admin__control-text {
+			width: 400px;
+		}
+	}
+	input[name='comments'] {
+		height: 10em;
+		width: 600px !important;
+	}
+}
+
+body.adtones_stock-orderstock-edit {
+	select.admin__control-select {
+		min-width: 400px;
+	}
+	.admin__field-control {
+		.admin__control-text {
+			width: 400px;
+		}
+	}
+	input[name='comments'] {
+		height: 10em;
+		width: 600px !important;
+	}
+}

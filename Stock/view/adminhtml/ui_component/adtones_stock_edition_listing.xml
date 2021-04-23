@@ -1,0 +1,192 @@
+<?xml version="1.0" ?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+	<argument name="data" xsi:type="array">
+		<item name="js_config" xsi:type="array">
+			<item name="provider" xsi:type="string">adtones_stock_edition_listing.adtones_stock_stock_listing_data_source</item>
+		</item>
+	</argument>
+	<settings>
+		<spinner>adtones_stock_edition_columns</spinner>
+		<deps>
+			<dep>adtones_stock_edition_listing.adtones_stock_stock_listing_data_source</dep>
+		</deps>
+		<buttons>
+			<button name="add">
+				<url path="*/*/new"/>
+				<class>primary</class>
+				<label translate="true">Add new Edition</label>
+			</button>
+		</buttons>
+	</settings>
+	<dataSource component="Magento_Ui/js/grid/provider" name="adtones_stock_stock_listing_data_source">
+		<settings>
+			<updateUrl path="mui/index/render"/>
+		</settings>
+		<aclResource>Adtones_Stock::Edition</aclResource>
+		<dataProvider class="Adtones\Stock\Model\UiComponent\DataProvider\DataProvider" name="adtones_stock_stock_listing_data_source">
+			<settings>
+				<requestFieldName>id</requestFieldName>
+				<primaryFieldName>stock_id</primaryFieldName>
+			</settings>
+		</dataProvider>
+	</dataSource>
+	<listingToolbar name="listing_top">
+		<settings>
+			<sticky>true</sticky>
+		</settings>
+		<bookmark name="bookmarks"/>
+		<columnsControls name="columns_controls"/>
+		<filters name="listing_filters"/>
+		<paging name="listing_paging"/>
+		<!-- <filterSearch name="fulltext"/> -->
+		<!-- <exportButton name="export_button"/> -->
+	</listingToolbar>
+	<columns name="adtones_stock_edition_columns">
+		<settings>
+			<editorConfig>
+				<param name="selectProvider" xsi:type="string">adtones_stock_edition_listing.adtones_stock_edition_listing.adtones_stock_edition_columns.ids</param>
+				<param name="enabled" xsi:type="boolean">true</param>
+				<param name="indexField" xsi:type="string">stock_id</param>
+				<param name="clientConfig" xsi:type="array">
+					<item name="saveUrl" path="adtones_stock/Edition/inlineEdit" xsi:type="url"/>
+					<item name="validateBeforeSave" xsi:type="boolean">false</item>
+				</param>
+			</editorConfig>
+			<childDefaults>
+				<param name="fieldAction" xsi:type="array">
+					<item name="provider" xsi:type="string">adtones_stock_edition_listing.adtones_stock_edition_listing.adtones_stock_edition_columns_editor</item>
+					<item name="target" xsi:type="string">startEdit</item>
+					<item name="params" xsi:type="array">
+						<item name="0" xsi:type="string">${ $.$data.rowIndex }</item>
+						<item name="1" xsi:type="boolean">true</item>
+					</item>
+				</param>
+			</childDefaults>
+		</settings>
+		<selectionsColumn name="ids">
+			<settings>
+				<indexField>stock_id</indexField>
+			</settings>
+		</selectionsColumn>
+		<column name="stock_id">
+			<settings>
+				<filter>text</filter>
+				<sorting>asc</sorting>
+				<label translate="true">ID</label>
+			</settings>
+		</column>
+		<column name="availability">
+			<argument name="data" xsi:type="array">
+				<item name="options" xsi:type="object">Adtones\Stock\Ui\Component\Renderer\Form\AvailableOptions</item>
+				<item name="config" xsi:type="array">
+					<item name="filter" xsi:type="string">select</item>
+					<item name="sorting" xsi:type="string">asc</item>
+					<item name="sortOrder" xsi:type="number">1</item>
+					<item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+					<item name="dataType" xsi:type="string">select</item>
+					<item name="label" xsi:type="string" translate="true">Availability</item>
+					<item name="editor" xsi:type="string">select</item>
+				</item>
+			</argument>
+		</column>
+		<column name="condition">
+			<argument name="data" xsi:type="array">
+				<item name="options" xsi:type="object">Adtones\Stock\Ui\Component\Renderer\Form\ConditionOptions</item>
+				<item name="config" xsi:type="array">
+					<item name="filter" xsi:type="string">select</item>
+					<item name="sorting" xsi:type="string">asc</item>
+					<item name="sortOrder" xsi:type="number">1</item>
+					<item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+					<item name="dataType" xsi:type="string">select</item>
+					<item name="label" xsi:type="string" translate="true">Condition</item>
+					<item name="editor" xsi:type="string">select</item>
+				</item>
+			</argument>
+		</column>
+		<column name="ownership">
+			<argument name="data" xsi:type="array">
+				<item name="options" xsi:type="object">Adtones\Stock\Ui\Component\Renderer\Form\OwnershipOptions</item>
+				<item name="config" xsi:type="array">
+					<item name="filter" xsi:type="string">select</item>
+					<item name="sorting" xsi:type="string">asc</item>
+					<item name="sortOrder" xsi:type="number">1</item>
+					<item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+					<item name="dataType" xsi:type="string">select</item>
+					<item name="label" xsi:type="string" translate="true">Ownership</item>
+					<item name="editor" xsi:type="string">select</item>
+				</item>
+			</argument>
+		</column>
+		<column name="location">
+			<settings>
+				<filter>text</filter>
+				<label translate="true">Location</label>
+				<editor>
+					<editorType>text</editorType>
+					<validation>
+						<rule name="required-entry" xsi:type="boolean">false</rule>
+					</validation>
+				</editor>
+			</settings>
+		</column>
+		<column name="edition_number">
+			<settings>
+				<filter>text</filter>
+				<label translate="true">Edition Number</label>
+				<editor>
+					<editorType>text</editorType>
+					<validation>
+						<rule name="required-entry" xsi:type="boolean">false</rule>
+					</validation>
+				</editor>
+			</settings>
+		</column>
+		<column name="stock_type">
+			<argument name="data" xsi:type="array">
+				<item name="options" xsi:type="object">Adtones\Stock\Ui\Component\Renderer\Form\StockTypeOptions</item>
+				<item name="config" xsi:type="array">
+					<item name="filter" xsi:type="string">select</item>
+					<item name="sorting" xsi:type="string">asc</item>
+					<item name="sortOrder" xsi:type="number">1</item>
+					<item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+					<item name="dataType" xsi:type="string">select</item>
+					<item name="label" xsi:type="string" translate="true">Stock Type</item>
+					<item name="editor" xsi:type="string">select</item>
+				</item>
+			</argument>
+		</column>
+		<column name="packing_requirements">
+			<settings>
+				<filter>text</filter>
+				<label translate="true">Packing Requirements</label>
+				<editor>
+					<editorType>text</editorType>
+					<validation>
+						<rule name="required-entry" xsi:type="boolean">false</rule>
+					</validation>
+				</editor>
+			</settings>
+		</column>
+		<column name="framed">
+			<argument name="data" xsi:type="array">
+				<item name="options" xsi:type="object">Adtones\Stock\Model\Source\EnabledOptions</item>
+				<item name="config" xsi:type="array">
+					<item name="filter" xsi:type="string">select</item>
+					<item name="sorting" xsi:type="string">asc</item>
+					<item name="sortOrder" xsi:type="number">1</item>
+					<item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+					<item name="dataType" xsi:type="string">select</item>
+					<item name="label" xsi:type="string" translate="true">Framed</item>
+					<item name="editor" xsi:type="string">select</item>
+				</item>
+			</argument>
+		</column>
+		<actionsColumn class="Adtones\Stock\Ui\Component\Listing\Column\EditionActions" name="actions">
+			<settings>
+				<indexField>stock_id</indexField>
+				<resizeEnabled>false</resizeEnabled>
+				<resizeDefaultWidth>107</resizeDefaultWidth>
+			</settings>
+		</actionsColumn>
+	</columns>
+</listing>

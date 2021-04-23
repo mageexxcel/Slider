@@ -1,0 +1,277 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Adtones\Stock\Block\Adminhtml\Stock\Edition\StockOrder $block */
+?>
+
+<?php $helper = $this->helper('Adtones\Stock\Helper\Data'); ?>
+<?php
+$currentProductId = "";
+if($this->getRequest()->getParam('id')){
+    $currentProductId = $this->getRequest()->getParam('id');
+}
+
+// Rendering current product collection to get information.
+$productCollection = $helper->getProductAttribute($currentProductId);
+
+// Rendering category name for Artist column.
+$categoryName = '';
+$categories = $productCollection->getCategoryIds();
+foreach($categories as $category){
+    $catName = $helper->getCategoriesCollection($category);
+    $categoryName = $catName->getName();
+}
+?>
+
+<div class="product-edition-model-section">
+    <div id="popup-modal" style="display:none;">
+        <div class="product-edition-section">
+            <div class="container">
+                <div class="product-edition-form">
+                    <!-- form to save product new edition -->
+                    <form class="product-new-edition-from" id="product-new-edition-from" method="post" enctype="multipart/form-data">
+                        <div class="form-group mb-2">
+                            <label for="availability" class="sr-only"><?= __("Availability") ?></label>
+                            <select class="custom-select my-1 mr-sm-2 form-control" id="availability">
+                                <option value="Allocated"><?= __("Allocated") ?></option>
+                                <option value="Available"><?= __("Available") ?></option>
+                                <option value="Awaiting stock"><?= __("Awaiting stock") ?></option>
+                                <option value="Consigned out"><?= __("Consigned out") ?></option>
+                                <option value="Held"><?= __("Held") ?></option>
+                                <option value="Not for sale"><?= __("Not for sale") ?></option>
+                                <option value="Return to consigner"><?= __("Return to consigner") ?></option>
+                                <option value="Sold"><?= __("Sold") ?></option>
+                                <option value="Unknown"><?= __("Unknown") ?></option>
+                                <option value="Damaged"><?= __("Damaged") ?></option>
+                            </select>
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="condition" class="sr-only"><?= __("Condition") ?></label>
+                            <select class="custom-select my-1 mr-sm-2 form-control" id="condition">
+                                <option value="New"><?= __("New") ?></option>
+                                <option value="Damaged"><?= __("Damaged") ?></option>
+                                <option value="Destroyed"><?= __("Destroyed") ?></option>
+                                <option value="Unknown"><?= __("Unknown") ?></option>
+                            </select>
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <input type="hidden" class="form-control" id="product_id" value="<?= /* @escapeNotVerified */ __($productCollection->getId()) ?>">
+                        </div>
+
+                        <!-- Getting Product name in hidden field -->
+                        <input type="hidden" class="form-control" id="product_name" value="<?= /* @escapeNotVerified */ __($productCollection->getName()) ?>" placeholder="Product Name">
+                        
+                        <div class="form-group mx-sm-3 mb-2">
+                            <input type="hidden" class="form-control" id="sku" value="<?= /* @escapeNotVerified */ __($productCollection->getSku()) ?>">
+                        </div>
+
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="artist" class="sr-only"><?= __("Artist") ?></label>
+                            <input type="text" class="form-control" id="artist" value="<?= /* @escapeNotVerified */ __($productCollection->getProductArtist()) ?>" placeholder="Artist">
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="ownership" class="sr-only"><?= __("Ownership") ?></label>
+                            <select class="custom-select my-1 mr-sm-2 form-control" id="ownership">
+                                <option value="Consigned from artist"><?= __("Consigned from artist") ?></option>
+                                <option value="Consigned from other"><?= __("Consigned from other") ?></option>
+                                <option value="Exclusive to TAG"><?= __("Exclusive to TAG") ?></option>
+                                <option value="Published by TAG"><?= __("Published by TAG") ?></option>
+                                <option value="Unknown"><?= __("Unknown") ?></option>
+                                <option value="Not for sale"><?= __("Not for sale") ?></option>
+                                <option value="Wholly Owned"><?= __("Wholly Owned") ?></option>
+                            </select>
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="work" class="sr-only"><?= __("Work") ?></label>
+                            <input type="text" class="form-control" id="work" value="<?= /* @escapeNotVerified */ __($productCollection->getProductWork()) ?>" placeholder="Work">
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="location" class="sr-only"><?= __("Location") ?></label>
+                            <input type="text" class="form-control" id="location" placeholder="Location">
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="edition_number" class="sr-only"><?= __("Edition Number") ?></label>
+                            <input type="text" class="form-control" id="edition_number" placeholder="Edition Number">
+                        </div>
+                        
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="packing_requirements" class="sr-only"><?= __("Packing Requirement") ?></label>
+                            <input type="text" class="form-control" id="packing_requirements" placeholder="Packing Requirement">
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="stock_type" class="sr-only"><?= __("Stock Type") ?></label>
+                            <select class="custom-select my-1 mr-sm-2 form-control" id="stock_type">
+                                <option value="Primary"><?= __("Primary") ?></option>
+                                <option value="Drawing"><?= __("Drawing") ?></option>
+                                <option value="Merchandise"><?= __("Merchandise") ?></option>
+                                <option value="Original"><?= __("Original") ?></option>
+                                <option value="Painting"><?= __("Painting") ?></option>
+                                <option value="Photography"><?= __("Photography") ?></option>
+                                <option value="Print"><?= __("Print") ?></option>
+                                <option value="Sculpture"><?= __("Sculpture") ?></option>
+                                <option value="Other"><?= __("Other") ?></option>
+                            </select>
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="framed" class="sr-only"><?= __("Framed") ?></label>
+                            <select class="custom-select my-1 mr-sm-2 form-control" id="framed">
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="comment" class="sr-only"><?= __("Comment") ?></label>
+                            <input type="textarea" class="form-control" row='4' id="comment" placeholder="Comment">
+                        </div> 
+                        <button type="submit" class="btn btn-primary product-edition-submit" id="product-edition-submit" >Save Edition</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+​
+<script type="text/javascript">
+require(
+    [
+        'jquery',
+        'Magento_Ui/js/modal/modal',
+        'uiRegistry'
+    ],
+    function(
+        $,
+        modal,
+        registry
+    ) {
+        var options = {
+            type: 'popup',
+            responsive: true,
+            innerScroll: true,
+            title: 'Product Edition Information',
+        };
+        $(document).ready(function(){
+            var popup = modal(options, $('#popup-modal'));
+            var controllerUrl = "<?php echo $this->getUrl('adtones_stock/edition/save'); ?>";
+
+            // Setting up Artist name.
+            var productArtist = "<?php echo $categoryName; ?>";
+            $("#artist").val(productArtist);
+
+            $('button#product-edition-submit').on("click", function(event) {
+                event.preventDefault();
+                
+                // Creating array to send in controller using ajax.
+                var productEditionArray = {};
+                productEditionArray['availability']         = $("select#availability").val();
+                productEditionArray['condition']            = $("select#condition").val();
+                productEditionArray['product_id']           = $("#product_id").val();
+                productEditionArray['product_name']         = $("#product_name").val();
+                productEditionArray['sku']                  = $("#sku").val();
+                productEditionArray['artist']               = $("#artist").val();
+                productEditionArray['ownership']            = $("#ownership").val();
+                productEditionArray['work']                 = $("#work").val();
+                productEditionArray['location']             = $("#location").val();
+                productEditionArray['edition_number']       = $("#edition_number").val();
+                productEditionArray['packing_requirements'] = $("#packing_requirements").val();
+                productEditionArray['stock_type']           = $("select#stock_type").val();
+                productEditionArray['framed']               = $("#framed").val();
+
+                productEditionJsonArray = JSON.stringify(productEditionArray);
+                
+                $.ajax({
+                    type: "POST",
+                    url: controllerUrl,
+                    data: {'formData': productEditionJsonArray},
+                    showLoader: true,
+                    success: function(responseData) {
+                        // Closing Popup model.
+                        $("button.action-close").trigger("click");
+
+                        // Value reset in popup.
+                        $("select#availability").val();
+                        $("select#condition").val();
+                        $("select#ownership").val();
+                        $("#artist").val();
+                        $("#location").val("");
+                        $("#edition_number").val("");
+                        $("#packing_requirements").val("");
+                        $("select#stock_type").val();
+                        $("#framed").val();
+
+                        // Calling function to refresh edition grid data.
+                        reloadUIComponent("adtones_stock_edition_listing.adtones_stock_stock_listing_data_source");
+                        location.reload();
+                    },
+                    error: function(responseData) {
+                        console.log(responseData, "Error from stock Module");
+                    }
+                });
+                return false;
+            });
+
+            // Setting up value of work.
+            var currentProductName = $("#product_name").val();
+            $("#work").val(currentProductName);
+        });
+
+        // To open edition form popup.
+        $(window).on('load', function(){  
+            $(document).on("click",".fieldset-wrapper.admin__fieldset-section_edition button.action-basic", function() {
+                $("#popup-modal").modal("openModal");
+            });
+
+            // Showing Hiding Add New Edition Row Button.
+            $(document).on("click",".fieldset-wrapper.admin__collapsible-block-wrapper", function() {
+                if($(this).hasClass("_show")){
+                    $(".fieldset-wrapper.admin__fieldset-section_edition").addClass("_show_edition_button");
+                }else{
+                    $(".fieldset-wrapper.admin__fieldset-section_edition").removeClass("_show_edition_button");
+                }
+            });
+        });
+
+        // To delete row in edition grid.
+        $(window).on('load', function(){ 
+            var controllerUrl = "<?php echo $this->getUrl('adtones_stock/edition/delete'); ?>"; 
+
+            $(document).on("click", ".product_form_product_form_adtones_stock_edition_grid_edition_grid a.action-menu-item", function(event){
+                event.preventDefault();
+                var editionActionUrl = $(this).attr("href");
+
+                //Getting edition id from Action Url. 
+                var editionId = editionActionUrl.split("/")['11'];
+
+                $.ajax({
+                    type: "POST",
+                    url: controllerUrl,
+                    data: {'stock_id': editionId},
+                    showLoader: true,
+                    success: function(responseData) {
+                        // Calling function to refresh edition grid data.
+                        reloadUIComponent("adtones_stock_edition_listing.adtones_stock_stock_listing_data_source");
+                        alert("Edition has been deleted!");
+                    },
+                    error: function(responseData) {
+                        console.log(responseData, "Error from stock Module");
+                    }
+                });
+                return false;
+            });
+        });
+
+        // To update Edition grid without refreshing entire page.
+        function reloadUIComponent(gridName) {
+            if (gridName) {
+                var params = [];
+                var target = registry.get(gridName);
+                if (target && typeof target === 'object') {
+                    target.set('params.t ', Date.now());
+                }
+            }
+        }  
+    }
+);
+</script>

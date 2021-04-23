@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="excellence" translate="label" sortOrder="100">
+            <label>Excellence</label>
+        </tab>
+        <section id="slider" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Slider Setting</label>
+            <tab>excellence</tab>
+            <resource>Excellence_Slider::slider_config</resource>
+            <group id="slider" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Sliders</label>
+                <field id="enable" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Awesome Slider</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="select_slider" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Select Slider</label>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                    <source_model>Excellence\Slider\Model\Adminhtml\Config\Source\Attributes</source_model>
+                    <comment>Choose any one slider.</comment>
+                </field>
+                <field id="select_speed" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enter Slider Speed</label>
+                     <depends>
+                        <field id="enable">1</field>
+                        <field id="select_slider" separator=",">bxslider,flexslider,unslider</field>
+                    </depends>
+                    <comment>Please enter value in numbers only. Example 1 as 1000ms.</comment>
+                </field>
+
+                <field id="select_caption" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Caption on slide</label>
+                    <depends>
+                        <field id="enable">1</field>
+                        <field id="select_slider">bxslider</field>
+                    </depends>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Caption will appears over each slides.</comment>
+                </field>
+
+
+                <field id="select_adaptive_height" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Adaptive height</label>
+                    <depends>
+                        <field id="enable">1</field>
+                        <field id="select_slider">bxslider</field>
+                    </depends>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Adaptive height for images in slider.</comment>
+                </field>
+
+
+                <field id="select_control_nav" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Control navigation dots</label>
+                    <depends>
+                        <field id="enable">1</field>
+                        <field id="select_slider" separator=",">flexslider,unslider</field>
+                    </depends>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Show control navigation dots.</comment>
+                </field>
+
+
+                <field id="select_infinite" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Infinite loop in mobile</label>
+                    <depends>
+                        <field id="enable">1</field>
+                        <field id="select_slider">bxslider</field>
+                    </depends>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Allow infinite loop for mobile view only.</comment>
+                </field>
+
+                <field id="select_fade" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Select Fades</label>
+                    <depends>
+                        <field id="enable">1</field>
+                        <field id="select_slider">bxslider</field>
+                    </depends>
+                    <source_model>Excellence\Slider\Model\Adminhtml\Config\Source\Fades</source_model>
+                    <comment>Choose any one to add Fade effects on images</comment>
+                </field>
+                <field id="select_pauseonhover" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Pauseonhover</label>
+                    <depends>
+                        <field id="enable">1</field>
+                        <field id="select_slider">flexslider</field>
+                    </depends>
+                    <source_model>Excellence\Slider\Model\Adminhtml\Config\Source\Pauseonhover</source_model>
+                    <comment>Choose any one to stop Image to slide when You Hover on slider</comment>
+                </field>
+                <field id="select_loop" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Loop Status</label>
+                    <depends>
+                        <field id="enable">1</field>
+                        <field id="select_slider" separator=",">bxslider,owlcarousel</field>
+                    </depends>
+                    <source_model>Excellence\Slider\Model\Adminhtml\Config\Source\Loop</source_model>
+                    <comment>Choose to enable Loop images.</comment>
+                </field>
+                <field id="select_dots" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Select Dots</label>
+                    <depends>
+                        <field id="enable">1</field>
+                        <field id="select_slider">owlcarousel,</field>
+                    </depends>
+                    <source_model>Excellence\Slider\Model\Adminhtml\Config\Source\Dots</source_model>
+                    <comment>Choose to enable Dots Functionality on Images</comment>
+                </field>
+                <field id="select_image_numbers" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enter No. of Images</label>
+                    <depends>
+                        <field id="enable">1</field>
+                        <field id="select_slider">owlcarousel</field>
+                    </depends>
+                    <comment>Please enter numbers to select images. Example 2 to show two images on a single page. </comment>
+                </field>
+                 <field id="select_autoplay" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>AutoPlay</label>
+                    <depends>
+                        <field id="enable">1</field>
+                        <field id="select_slider" separator=",">owlcarousel,unslider</field>
+                    </depends>
+                     <source_model>Excellence\Slider\Model\Adminhtml\Config\Source\Autoplay</source_model>
+                    <comment>Choose an Option to Enable/Disable Autoplay. </comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

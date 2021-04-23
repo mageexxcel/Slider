@@ -1,0 +1,29 @@
+#display_custom_data>li{
+    list-style-type: none;
+}
+#display_custom_data>li>.closing-tag{
+    margin: 0 5px;
+    cursor: pointer;
+}
+#display_custom_data>span{
+    font-weight: 300; 
+}
+#display_custom_data>li>span{
+    font-weight: 300;
+    color: red;
+}
+#display_custom_data>li>.no-Product>p{
+font-size: 10px;
+}
+.slider-heading{
+    display: inline-block;
+    vertical-align: top;
+    font-size: 15px;
+    font-weight: 600;
+}
+.slider-content{
+    display: inline-block;
+}
+.col-md-4.slider-content {
+    padding-left: 30px;
+}

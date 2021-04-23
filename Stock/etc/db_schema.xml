@@ -1,0 +1,58 @@
+<?xml version="1.0" ?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+	
+	<!-- Edition Stock Table -->
+	<table comment="adtones_stock_stock Table" engine="innodb" name="adtones_stock_stock" resource="default">
+		<column comment="Entity Id" identity="true" name="stock_id" nullable="false" padding="6" unsigned="false" xsi:type="smallint"/>
+		<constraint referenceId="PRIMARY" xsi:type="primary">
+			<column name="stock_id"/>
+		</constraint>
+
+		<!-- Editon Realted Information -->
+		<column name="artist" nullable="true" xsi:type="text"/>
+		<column name="work" nullable="true" xsi:type="text"/>
+		<column name="availability" nullable="true" xsi:type="text"/>
+		<column name="condition" nullable="true" xsi:type="text"/>
+		<column name="ownership" nullable="true" xsi:type="text"/>
+		<column name="location" nullable="true" xsi:type="text"/>
+		<column name="edition_number" nullable="true" xsi:type="text"/>
+		<column name="stock_type" nullable="true" xsi:type="text"/>
+		<column name="packing_requirements" nullable="true" xsi:type="text"/>
+		<column name="framed" nullable="true" xsi:type="text"/>
+
+		<!-- Edition Product Related Information -->
+		<column name="thumbnail" nullable="true" xsi:type="text"/>
+		<column name="product_id" nullable="true" xsi:type="text"/>
+		<column name="sku" nullable="true" xsi:type="text"/>
+
+		<!-- Eddition Allocation Information -->
+		<column name="product_name" nullable="true" xsi:type="text"/>
+		<column name="allocated" nullable="true" xsi:type="text"/>
+		<column name="allocated_order_id" nullable="true" xsi:type="text"/>
+		<column name="edition_id" nullable="true" xsi:type="text"/>
+		<column name="edition_count" nullable="true" xsi:type="text"/>
+	</table>
+
+	<!-- Stock Edition Report table -->
+	<table comment="adtones_stock_report Table" engine="innodb" name="adtones_stock_report" resource="default">
+		<column comment="Entity Id" identity="true" name="report_id" nullable="false" padding="6" unsigned="false" xsi:type="smallint"/>
+		<constraint referenceId="PRIMARY" xsi:type="primary">
+			<column name="report_id"/>
+		</constraint>
+		<column name="order_id" nullable="true" xsi:type="text"/>
+		<column name="invoice_id" nullable="true" xsi:type="text"/>
+		<column name="status" nullable="true" xsi:type="text"/>
+		<column name="firstname" nullable="true" xsi:type="text"/>
+		<column name="lastname" nullable="true" xsi:type="text"/>
+		<column name="order_type" nullable="true" xsi:type="text"/>
+		<column name="artist" nullable="true" xsi:type="text"/>
+		<column name="title_of_work" nullable="true" xsi:type="text"/>
+		<column name="sku" nullable="true" xsi:type="text"/>
+		<column name="edition_number" nullable="true" xsi:type="text"/>
+		<column name="date_ordered" nullable="true" xsi:type="text"/>
+		<column name="list_price" nullable="true" xsi:type="text"/>
+		<column name="discount" nullable="true" xsi:type="text"/>
+		<column name="price_paid" nullable="true" xsi:type="text"/>
+		<column name="stock_item_id" nullable="true" xsi:type="text"/>
+	</table>
+</schema>

@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget class="Excellence\Slider\Block\Widget\SliderWidget" id="excellence_slider_widget">
+        <label>Xmage Slider Widget</label>
+        <description></description>
+        <parameters>
+            <parameter name="widget_title" sort_order="10" visible="true" xsi:type="text">
+                <label>Widget Name</label>
+            </parameter>
+            <parameter name="collection_slider" xsi:type="select" visible="true"
+                source_model="Excellence\Slider\Model\Config\Source\SelectSlider" >
+                <label translate="true">Select Slider</label>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

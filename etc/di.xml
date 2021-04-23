@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="Excellence\Slider\Model\Resource\Sliderpages\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">excellence_slider_sliderpages</argument>
+            <argument name="resourceModel" xsi:type="string">Excellence\Slider\Model\ResourceModel\Sliderpages</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="excellence_slider_grid_data_source" xsi:type="string">Excellence\Slider\Model\Resource\Sliderpages\Grid\Collection</item>
+                <item name="excellence_slides_grid_data_source" xsi:type="string">Excellence\Slider\Model\Resource\Slides\Grid\Collection</item>
+                <item name="slides_form_data_source" xsi:type="string">Excellence\Slider\Model\Resource\Slides\Form\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Excellence\Slider\Model\Resource\Slides\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">excellence_slider_slides</argument>
+            <argument name="resourceModel" xsi:type="string">Excellence\Slider\Model\ResourceModel\Slides</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Excellence\Slider\Model\Resource\Slides\Form\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">excellence_slider_slides</argument>
+            <argument name="resourceModel" xsi:type="string">Excellence\Slider\Model\ResourceModel\Slides</argument>
+        </arguments>
+    </virtualType>
+</config>

@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<!-- Stock Table -->
+	<preference for="Adtones\Stock\Api\StockRepositoryInterface" type="Adtones\Stock\Model\StockRepository"/>
+	<preference for="Adtones\Stock\Api\Data\StockInterface" type="Adtones\Stock\Model\Data\Stock"/>
+	<preference for="Adtones\Stock\Api\Data\StockSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+	<virtualType name="Adtones\Stock\Model\ResourceModel\Stock\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+		<arguments>
+			<argument name="mainTable" xsi:type="string">adtones_stock_stock</argument>
+			<argument name="resourceModel" xsi:type="string">Adtones\Stock\Model\ResourceModel\Stock\Collection</argument>
+		</arguments>
+	</virtualType>
+
+	<!-- Report Table -->
+	<preference for="Adtones\Stock\Api\ReportRepositoryInterface" type="Adtones\Stock\Model\ReportRepository"/>
+	<preference for="Adtones\Stock\Api\Data\ReportInterface" type="Adtones\Stock\Model\Data\Report"/>
+	<preference for="Adtones\Stock\Api\Data\ReportSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+	<virtualType name="Adtones\Stock\Model\ResourceModel\Report\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+		<arguments>
+			<argument name="mainTable" xsi:type="string">adtones_stock_report</argument>
+			<argument name="resourceModel" xsi:type="string">Adtones\Stock\Model\ResourceModel\Report\Collection</argument>
+		</arguments>
+	</virtualType>
+
+	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+		<arguments>
+			<argument name="collections" xsi:type="array">
+				<item name="adtones_stock_stock_listing_data_source" xsi:type="string">Adtones\Stock\Model\ResourceModel\Stock\Grid\Collection</item>
+				<item name="adtones_stock_report_listing_data_source" xsi:type="string">Adtones\Stock\Model\ResourceModel\Report\Grid\Collection</item>
+			</argument>
+		</arguments>
+	</type>
+
+	<!-- Creating CLI command -->
+    <type name="Magento\Framework\Console\CommandList">
+       <arguments>
+           <argument name="commands" xsi:type="array">
+               <item name="updateProductQuantity" xsi:type="object">Adtones\Stock\Console\UpdateProductQuantity</item>
+           </argument>
+       </arguments>
+   </type>
+</config>

@@ -1,0 +1,243 @@
+<?xml version="1.0" ?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+	<argument name="data" xsi:type="array">
+		<item name="js_config" xsi:type="array">
+			<item name="provider" xsi:type="string">adtones_stock_report_listing.adtones_stock_report_listing_data_source</item>
+		</item>
+	</argument>
+	<settings>
+		<spinner>adtones_stock_report_columns</spinner>
+		<deps>
+			<dep>adtones_stock_report_listing.adtones_stock_report_listing_data_source</dep>
+		</deps>
+	</settings>
+	<dataSource component="Magento_Ui/js/grid/provider" name="adtones_stock_report_listing_data_source">
+		<settings>
+			<updateUrl path="mui/index/render"/>
+		</settings>
+		<aclResource>Adtones_Stock::Report</aclResource>
+		<dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="adtones_stock_report_listing_data_source">
+			<settings>
+				<requestFieldName>id</requestFieldName>
+				<primaryFieldName>report_id</primaryFieldName>
+			</settings>
+		</dataProvider>
+	</dataSource>
+	<listingToolbar name="listing_top">
+		<settings>
+			<sticky>true</sticky>
+		</settings>
+		<filterSearch name="fulltext"/>
+		<filters name="listing_filters"/>
+		<exportButton name="export_button"/>
+		<bookmark name="bookmarks"/>
+		<columnsControls name="columns_controls"/>
+		<paging name="listing_paging"/>
+	</listingToolbar>
+	<columns name="adtones_stock_report_columns">
+		<selectionsColumn name="ids">
+			<settings>
+				<indexField>report_id</indexField>
+			</settings>
+		</selectionsColumn>
+		<column name="report_id">
+			<settings>
+				<filter>text</filter>
+				<sorting>asc</sorting>
+				<label translate="true">ID</label>
+			</settings>
+		</column>
+		<column name="order_id">
+			<settings>
+				<filter>text</filter>
+				<label translate="true">#Order</label>
+				<editor>
+					<editorType>text</editorType>
+					<validation>
+						<rule name="required-entry" xsi:type="boolean">false</rule>
+					</validation>
+				</editor>
+			</settings>
+		</column>
+		<column name="invoice_id">
+			<settings>
+				<filter>text</filter>
+				<label translate="true">#Invoice</label>
+				<editor>
+					<editorType>text</editorType>
+					<validation>
+						<rule name="required-entry" xsi:type="boolean">false</rule>
+					</validation>
+				</editor>
+			</settings>
+		</column>
+		<column name="status">
+			<argument name="data" xsi:type="array">
+				<item name="options" xsi:type="object">Adtones\Stock\Ui\Component\Renderer\Form\OrderStatus</item>
+				<item name="config" xsi:type="array">
+					<item name="filter" xsi:type="string">select</item>
+					<item name="sorting" xsi:type="string">asc</item>
+					<item name="sortOrder" xsi:type="number">1</item>
+					<item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+					<item name="dataType" xsi:type="string">select</item>
+					<item name="label" xsi:type="string" translate="true">Status</item>
+					<item name="editor" xsi:type="string">select</item>
+				</item>
+			</argument>
+		</column>
+		<column name="firstname">
+			<settings>
+				<filter>text</filter>
+				<label translate="true">First Name</label>
+				<editor>
+					<editorType>text</editorType>
+					<validation>
+						<rule name="required-entry" xsi:type="boolean">false</rule>
+					</validation>
+				</editor>
+			</settings>
+		</column>
+		<column name="lastname">
+			<settings>
+				<filter>text</filter>
+				<label translate="true">Last Name</label>
+				<editor>
+					<editorType>text</editorType>
+					<validation>
+						<rule name="required-entry" xsi:type="boolean">false</rule>
+					</validation>
+				</editor>
+			</settings>
+		</column>
+		<column name="order_type">
+			<settings>
+				<filter>text</filter>
+				<label translate="true">Order Type</label>
+				<editor>
+					<editorType>text</editorType>
+					<validation>
+						<rule name="required-entry" xsi:type="boolean">false</rule>
+					</validation>
+				</editor>
+			</settings>
+		</column>
+		<column name="artist">
+			<settings>
+				<filter>text</filter>
+				<label translate="true">Artist</label>
+				<editor>
+					<editorType>text</editorType>
+					<validation>
+						<rule name="required-entry" xsi:type="boolean">false</rule>
+					</validation>
+				</editor>
+			</settings>
+		</column>
+		<column name="title_of_work">
+			<settings>
+				<filter>text</filter>
+				<label translate="true">Title Of Work</label>
+				<editor>
+					<editorType>text</editorType>
+					<validation>
+						<rule name="required-entry" xsi:type="boolean">false</rule>
+					</validation>
+				</editor>
+			</settings>
+		</column>
+		<column name="sku">
+			<settings>
+				<filter>text</filter>
+				<label translate="true">Sku</label>
+				<editor>
+					<editorType>text</editorType>
+					<validation>
+						<rule name="required-entry" xsi:type="boolean">false</rule>
+					</validation>
+				</editor>
+			</settings>
+		</column>
+		<column name="edition_number">
+			<settings>
+				<filter>text</filter>
+				<label translate="true">Ed. No.</label>
+				<editor>
+					<editorType>text</editorType>
+					<validation>
+						<rule name="required-entry" xsi:type="boolean">false</rule>
+					</validation>
+				</editor>
+			</settings>
+		</column>
+		<column name="date_ordered" class="Magento\Ui\Component\Listing\Columns\Date">
+			<argument name="data" xsi:type="array">
+				<item name="options" xsi:type="object">Adtones\Stock\Ui\Component\Renderer\Form\ConditionOptions</item>
+				<item name="config" xsi:type="array">
+					<item name="filter" xsi:type="string">dateRange</item>
+					<item name="sorting" xsi:type="string">asc</item>
+					<item name="sortOrder" xsi:type="number">1</item>
+					<item name="component" xsi:type="string">Magento_Ui/js/grid/columns/date</item>
+					<item name="dataType" xsi:type="string">select</item>
+					<item name="label" xsi:type="string" translate="true">Date Ordered</item>
+					<item name="dateFormat" xsi:type="string">Y-MM-dd HH:mm:ss</item>
+				</item>
+			</argument>
+		</column>
+		<column name="list_price" class="Magento\Catalog\Ui\Component\Listing\Columns\Price">
+			<settings>
+				<filter>text</filter>
+				<label translate="true">List Price (ex-VAT)</label>
+				<editor>
+					<editorType>text</editorType>
+					<validation>
+						<rule name="required-entry" xsi:type="boolean">false</rule>
+					</validation>
+				</editor>
+			</settings>
+		</column>
+		<column name="discount" class="Magento\Catalog\Ui\Component\Listing\Columns\Price">
+			<settings>
+				<filter>text</filter>
+				<label translate="true">Discount (ex-VAT)</label>
+				<editor>
+					<editorType>text</editorType>
+					<validation>
+						<rule name="required-entry" xsi:type="boolean">false</rule>
+					</validation>
+				</editor>
+			</settings>
+		</column>
+		<column name="price_paid" class="Magento\Catalog\Ui\Component\Listing\Columns\Price" >
+			<settings>
+				<filter>text</filter>
+				<label translate="true">Paid Price (ex-VAT)</label>
+				<editor>
+					<editorType>text</editorType>
+					<validation>
+						<rule name="required-entry" xsi:type="boolean">false</rule>
+					</validation>
+				</editor>
+			</settings>
+		</column>
+		<column name="stock_item_id">
+			<settings>
+				<filter>text</filter>
+				<label translate="true">Stock Item Id</label>
+				<editor>
+					<editorType>text</editorType>
+					<validation>
+						<rule name="required-entry" xsi:type="boolean">false</rule>
+					</validation>
+				</editor>
+			</settings>
+		</column>
+
+		<actionsColumn class="Adtones\Stock\Ui\Component\Listing\Column\ReportActions" name="actions">
+			<settings>
+				<indexField>stock_id</indexField>
+				<resizeEnabled>false</resizeEnabled>
+				<resizeDefaultWidth>107</resizeDefaultWidth>
+			</settings>
+		</actionsColumn>
+	</columns>
+</listing>

@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<add id="Adtones::top_level" module="Adtones_Stock" resource="Magento_Backend::content" sortOrder="30" title="Stock"/>
+		<add action="adtones_stock/stock/index" id="Adtones_Stock::adtones_stock_stock" module="Adtones_Stock" parent="Adtones::top_level" resource="Magento_Backend::content" sortOrder="9999" title="Stock Manager"/>
+		<!-- <add action="adtones_stock/edition/index" id="Adtones_Stock::adtones_stock_edition" module="Adtones_Stock" parent="Adtones::top_level" resource="Magento_Backend::content" sortOrder="9999" title="Edition"/> -->
+		<!-- <add action="adtones_stock/orderstock/index" id="Adtones_Stock::adtones_stock_orderstock" module="Adtones_Stock" parent="Adtones::top_level" resource="Magento_Backend::content" sortOrder="9999" title="Order Stock Manager"/> -->
+
+		<add id="Adtones::top_level_stock" module="Adtones_Stock" resource="Magento_Backend::content" sortOrder="30" title="Tag Stock" parent="Magento_Reports::report"/>
+		<add id="Adtones_Stock::adtones_stock_report" resource="Magento_Backend::content" title="Tag Edition Stock" parent="Adtones::top_level_stock" action="adtones_stock/report/index" module="Adtones_Stock" sortOrder="10"/>
+    </menu>
+</config>
